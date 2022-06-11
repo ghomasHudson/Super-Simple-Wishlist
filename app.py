@@ -82,7 +82,7 @@ def bought():
 
 @app.route("/wishlist/<path:wishlist_path>")
 def wishlist(wishlist_path):
-    if os.path.exists("cache.json"):
+    if os.path.exists(CACHE_FILENAME):
         cache = json.load(open(CACHE_FILENAME))
     else:
         cache = {}
@@ -91,10 +91,15 @@ def wishlist(wishlist_path):
     items = []
     for url in urls:
         if url in cache:
-            items.append(cache[url])
+            item = cache[url]
         else:
-            items.append(get_details(url))
-            cache[url] = items[-1]
+            item = get_details(url)
+            cache[url] = item
+
+        if not(request.args.get("exclude_purchased") and item.get("bought")):
+            items.append(item)
+
+
 
     # Save out
     json.dump(cache, open(CACHE_FILENAME, 'w'))
@@ -120,4 +125,7 @@ scheduler.init_app(app)
 scheduler.start()
 
 if __name__ == "__main__":
-    app.run()
+    # app.run()
+    # app.run(debug=True, host='0.0.0.0', port=5000)
+    # app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')

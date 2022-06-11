@@ -38,6 +38,6 @@ The wishlist can be viewed by going to `SERVER_URL/wishlists/wishlist_name.txt`.
 
 It may take a few seconds to load the first time while the product details are grabbed. The product details along with the "Bought" status are saved in the `db.json` file. Item details are refreshed once a day in case of price changes.
 
-Navigating to `SERVER_URL/wishlists/wishlist_name.txt?exclude_purchased=1` will remove products that people have bought for you. Without this a prompt `Someone may have purchaced this item` will appear when clicking to prevent spoilers.
+Navigating to `SERVER_URL/wishlists/wishlist_name.txt?exclude_purchased=1` will remove products that people have bought for you. Without this a prompt `Someone may have purchaced this item` will appear, when clicking to prevent spoilers.
 
 

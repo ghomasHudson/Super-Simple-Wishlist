@@ -4,7 +4,7 @@
 <br>
     <ul class="list-group list-group-flush">
     {% for item in items %}
-    <a {% if item.bought %} href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" {% else %}href="{{item.url}}" target="_blank" {% endif %} class="list-group-item list-group-item-action">
+    <a {% if item.bought %} href="#" data-bs-toggle="modal" data-bs-target="#purchasedModal" data-bs-url="{{item.url}}"{% else %}href="{{item.url}}" target="_blank" {% endif %} class="list-group-item list-group-item-action">
         <div class="row">
         <div class="col-2">
             {% if item.image %}
@@ -19,7 +19,7 @@
             <p class="mb-1">{{item.description}}</p>
             <div class="d-flex w-100 justify-content-between">
             <small class="text-muted">{{ item.url.rpartition("//")[-1].partition("/")[0] }}</small>
-            <small class="text-muted"><span onclick="bought_gift(event, '{{item.url}}')">Bought this gift?</span></small>
+            <small class="text-muted" id="bought_{{item.url}}"><span {% if not item.bought %} onclick="bought_gift_modal(event, '{{item.url}}')" {% endif %}>Bought this gift?</span></small>
         </div>
         </div>
         </div>
@@ -34,29 +34,18 @@
     https://www.dell.com/en-uk/shop/laptop-computers-2-in-1-pcs/xps-13-9305/spd/xps-13-9305-laptop/cn93509sc11</pre>
     {% endif %}
 
-<script>
-//Handles "Bought this Gift?" button
-function bought_gift(event, url){
-    event.stopPropagation();
-    event.preventDefault()
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("POST", "/bought", true);
-    xmlhttp.onreadystatechange = function(){console.log("hi");}
-    //xmlhttp.send();
-    xmlhttp.send(JSON.stringify({"url":url}));
-}
 
-</script>
-
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modals -->
+<div class="modal fade" id="purchasedModal" tabindex="-1" aria-labelledby="purchasedLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel">You might have a gift</h5>
+      <h5 class="modal-title" id="purchasedLabel">You might have a gift</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-       Someone has purchased this item from the list recently.
+          Someone has purchased this item from the list recently.<br>
+       <small style="font-size:0.7em"><a href="#" target="_blank">Visit this item anyway</a></small>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -65,6 +54,63 @@ function bought_gift(event, url){
   </div>
 </div>
 
+
+<div class="modal fade" id="boughtThisGiftModal" tabindex="-1" aria-labelledby="boughtLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title" id="boughtLabel">Mark as Bought?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       If you've purchased this item, click "Mark as Bought". This will not notify the list owner, but will prevent others from buying the same gift.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" data-url="#" onclick="bought_gift(event)" data-bs-dismiss="modal">Mark as Bought</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+//Handles "Bought this Gift?" button
+function bought_gift_modal(event, url){
+    console.log("BOUGHT")
+    //new bootstrap.Modal('#boughtThisGiftModal').show();
+    new bootstrap.Modal('#boughtThisGiftModal').show();
+    const modal = document.getElementById('boughtThisGiftModal');
+    button = modal.querySelector('.btn-success');
+    button.dataset.url = url;
+    event.stopPropagation();
+    event.preventDefault();
+}
+
+
+function bought_gift(event){
+    console.log(event)
+    const button = event.target;
+    const url = button.getAttribute('data-url');
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("POST", "/bought", true);
+    xmlhttp.onreadystatechange = function(){console.log("hi");}
+    xmlhttp.send(JSON.stringify({"url":url}));
+
+    const bought = document.getElementById('bought_'+url);
+        bought.innerHTML = "<span style='font-weight:bold;color:green'>Bought!</span>"
+}
+
+//Set url of purchased modal
+const exampleModal = document.getElementById('purchasedModal')
+exampleModal.addEventListener('show.bs.modal', event => {
+    const button = event.relatedTarget;
+    const url = button.getAttribute('data-bs-url');
+    const modalLink = exampleModal.querySelector('.modal-body a');
+    modalLink.href = url;
+})
+
+
+</script>
 
 {% endblock %}
 

@@ -10,13 +10,13 @@ Here's a basic docker-compose snippet:
 version: "2.1"
 services:
   supersimplewishlist:
-    image: ghomasHudson/supersimplewishlist
+    image: ghomashudson/supersimplewishlist
     container_name: supersimplewishlist
     volumes:
-      - /path/to/wishlists:/wishlists
-      - /path/to/cache:/cache
+      - /path/to/wishlists:/usr/src/app/wishlists
+      - /path/to/cache.json:/usr/src/app/cache.json
     ports:
-      - 8080:8080
+      - 5000:5000
     restart: unless-stopped
 ```
 

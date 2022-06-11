@@ -66,7 +66,9 @@ def get_details(url):
 
 @app.route("/")
 def list_wishlists():
-    return render_template("wishlist_dir.html", wishlists=list(glob.glob("*.txt")))
+    wishlists = list(glob.glob("wishlists/*.txt"))
+    wishlists = [os.path.split(w)[1] for w in wishlists]
+    return render_template("wishlist_dir.html", wishlists=wishlists)
 
 
 @app.route("/bought", methods=['POST'])
@@ -85,7 +87,7 @@ def wishlist(wishlist_path):
     else:
         cache = {}
 
-    urls = open(wishlist_path).read().splitlines()
+    urls = open(os.path.join("wishlists",wishlist_path)).read().splitlines()
     items = []
     for url in urls:
         if url in cache:

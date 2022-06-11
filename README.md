@@ -4,7 +4,7 @@ A really basic self-hosted wishlist app which renders a simple plaintext file of
 ![wl](https://user-images.githubusercontent.com/13795113/173165446-e1487d46-0003-40fd-98d9-19df9ac3683f.png)
 
 # Setup
-## Docker-compose (WIP)
+## Docker-compose
 Here's a basic docker-compose snippet:
 ```yaml
 version: "2.1"

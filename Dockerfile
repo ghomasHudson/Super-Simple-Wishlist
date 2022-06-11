@@ -11,5 +11,7 @@ COPY . /usr/src/app
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
+EXPOSE 5000/tcp
+
 # run server
 CMD ["python", "app.py"]

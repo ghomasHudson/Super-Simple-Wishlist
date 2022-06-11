@@ -14,7 +14,7 @@ services:
     container_name: supersimplewishlist
     volumes:
       - /path/to/wishlists:/usr/src/app/wishlists
-      - /path/to/cache.json:/usr/src/app/cache.json
+      - /path/to/cache.json:/usr/src/app/.cache
     ports:
       - 5000:5000
     restart: unless-stopped

@@ -6,7 +6,7 @@ A really basic self-hosted wishlist app which renders a simple txt file of urls 
 # Setup
 ## Docker-compose (WIP)
 Here's a basic docker-compose snippet:
-```
+```yaml
 version: "2.1"
 services:
   supersimplewishlist:

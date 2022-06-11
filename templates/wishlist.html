@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="mt-5">{{wishlist_name}}</h1>
+<br>
+    <ul class="list-group list-group-flush">
+    {% for item in items %}
+    <a {% if item.bought %} href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" {% else %}href="{{item.url}}" target="_blank" {% endif %} class="list-group-item list-group-item-action">
+        <div class="row">
+        <div class="col-2">
+            {% if item.image %}
+                <img class="rounded mx-auto d-block" style="width: 100px; height: 100px; object-fit: scale-down;" src="{{item.image}}">
+            {% endif %}
+        </div>
+        <div class="col-10">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{item.name}}</h5>
+                <small class="text-muted">{{item.price}}</small>
+            </div>
+            <p class="mb-1">{{item.description}}</p>
+            <div class="d-flex w-100 justify-content-between">
+            <small class="text-muted">{{ item.url.rpartition("//")[-1].partition("/")[0] }}</small>
+            <small class="text-muted"><span onclick="bought_gift(event, '{{item.url}}')">Bought this gift?</span></small>
+        </div>
+        </div>
+        </div>
+    </a>
+    {% endfor %}
+    </ul>
+    {% if items|length < 1 %}
+    <p>Your wishlist has no items. Copy product urls to the text file <i>{{wishlist_name}}.txt</i>, one url per line. E.g.</p>
+    <pre>
+    https://www.amazon.co.uk/item_name/dp/B08JK37WFK
+    https://www.ikea.com/gb/en/p/markus-office-chair-vissle-dark-grey-30261152/
+    https://www.dell.com/en-uk/shop/laptop-computers-2-in-1-pcs/xps-13-9305/spd/xps-13-9305-laptop/cn93509sc11</pre>
+    {% endif %}
+
+<script>
+//Handles "Bought this Gift?" button
+function bought_gift(event, url){
+    event.stopPropagation();
+    event.preventDefault()
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("POST", "/bought", true);
+    xmlhttp.onreadystatechange = function(){console.log("hi");}
+    //xmlhttp.send();
+    xmlhttp.send(JSON.stringify({"url":url}));
+}
+
+</script>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">You might have a gift</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       Someone has purchased this item from the list recently.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
+

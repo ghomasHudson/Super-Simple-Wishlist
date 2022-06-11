@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<br>
+    <p>Pick a wishlist:</p>
+    <ul>
+        {% for wishlist in wishlists %}
+        <li><a href="/wishlist/{{wishlist}}">{{wishlist}}</a></li>
+        {% endfor %}
+    </ul>
+    {% if wishlists|length < 1 %}
+        <p>No wishlists were found.</p>
+        <p>Please create a <i>.txt</i> file with one url per line.</p>
+    {% endif %}
+{% endblock %}

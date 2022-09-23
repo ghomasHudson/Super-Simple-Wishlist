@@ -115,7 +115,7 @@ def updateDetails():
     app.logger.info("Beginning Cache update...")
     cache = json.load(open(CACHE_FILENAME))
     for url in cache:
-        bought = cache[url]["bought"]
+        bought = cache[url].get("bought", False)
         cache[url] = get_details(url)
         cache[url]["bought"] = bought
     json.dump(cache, open(CACHE_FILENAME, 'w'))

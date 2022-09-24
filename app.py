@@ -125,7 +125,8 @@ scheduler.init_app(app)
 scheduler.start()
 
 if __name__ == "__main__":
+    pass
     # app.run()
     # app.run(debug=True, host='0.0.0.0', port=5000)
     # app.run(debug=True)
-    app.run(debug=True, host='0.0.0.0')
+    #app.run(debug=True, host='0.0.0.0')

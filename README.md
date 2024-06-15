@@ -1,6 +1,16 @@
 # Super Simple Wishlist
 A really basic self-hosted wishlist app which renders a simple plaintext file of urls as a wishlist. Additionally, keeps track of when someone buys something for you.
 
+Turns:
+
+```
+https://www.amazon.co.uk/Innovative-Designs-Mandalorian-Sticker-Stickers/dp/B087H4HZQ7
+https://www.ikea.com/gb/en/p/markus-office-chair-vissle-dark-grey-30261152/
+https://www.dell.com/en-uk/shop/laptops-2-in-1-pcs/xps-13-laptop/spd/xps-13-9340-laptop
+```
+
+into
+
 ![wl](https://user-images.githubusercontent.com/13795113/173165446-e1487d46-0003-40fd-98d9-19df9ac3683f.png)
 
 # Setup
